@@ -10,6 +10,7 @@
     "firebase-admin": "^13.0.0"
   },
   "devDependencies": {
+    "terser": "^5.51.2",
     "vite": "^5.4.21"
   }
 }
