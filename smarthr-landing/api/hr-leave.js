@@ -1,0 +1,246 @@
+import { adminAuth, adminDb } from "./firebaseAdmin.js";
+
+export default async function handler(req, res) {
+
+    try {
+
+        // ============================================================
+        // AUTHENTICATION
+        // ============================================================
+
+        const authHeader = req.headers.authorization;
+
+        if (
+            !authHeader ||
+            !authHeader.startsWith("Bearer ")
+        ) {
+            return res.status(401).json({
+                success: false,
+                message: "Authentication required"
+            });
+        }
+
+        const idToken =
+            authHeader.split("Bearer ")[1];
+
+        const decodedToken =
+            await adminAuth.verifyIdToken(idToken);
+
+        // ============================================================
+        // HR AUTHORIZATION
+        // ============================================================
+
+        if (
+            decodedToken.role !== "hr" &&
+            decodedToken.role !== "admin"
+        ) {
+            return res.status(403).json({
+                success: false,
+                message: "Only HR can manage leave requests"
+            });
+        }
+
+        const hrUid = decodedToken.uid;
+
+        // ============================================================
+        // GET ALL LEAVE REQUESTS
+        // ============================================================
+
+        if (req.method === "GET") {
+
+            const snapshot =
+                await adminDb
+                    .collection("leaveRequests")
+                    .get();
+
+            const requests = [];
+
+            snapshot.forEach((doc) => {
+
+                requests.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+
+            });
+
+            // Newest first
+            requests.sort((a, b) => {
+
+                const dateA =
+                    a.createdAt || "";
+
+                const dateB =
+                    b.createdAt || "";
+
+                return dateB.localeCompare(dateA);
+
+            });
+
+            return res.status(200).json({
+                success: true,
+                requests
+            });
+        }
+
+        // ============================================================
+        // APPROVE / REJECT LEAVE REQUEST
+        // ============================================================
+
+        if (req.method === "POST") {
+
+            const {
+                requestId,
+                action
+            } = req.body || {};
+
+            // --------------------------------------------------------
+            // VALIDATION
+            // --------------------------------------------------------
+
+            if (!requestId) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Leave request ID is required"
+                });
+            }
+
+            if (
+                action !== "approve" &&
+                action !== "reject"
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Action must be approve or reject"
+                });
+            }
+
+            // --------------------------------------------------------
+            // GET REQUEST
+            // --------------------------------------------------------
+
+            const leaveRef =
+                adminDb
+                    .collection("leaveRequests")
+                    .doc(requestId);
+
+            const leaveDoc =
+                await leaveRef.get();
+
+            if (!leaveDoc.exists) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Leave request not found"
+                });
+            }
+
+            const leaveData =
+                leaveDoc.data();
+
+            // --------------------------------------------------------
+            // PREVENT RE-PROCESSING
+            // --------------------------------------------------------
+
+            if (leaveData.status !== "Pending") {
+
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        `This request has already been ${String(
+                            leaveData.status || ""
+                        ).toLowerCase()}.`
+                });
+
+            }
+
+            // --------------------------------------------------------
+            // NEW STATUS
+            // --------------------------------------------------------
+
+            const newStatus =
+                action === "approve"
+                    ? "Approved"
+                    : "Rejected";
+
+            const now =
+                new Date().toISOString();
+
+            // --------------------------------------------------------
+            // UPDATE FIRESTORE
+            // --------------------------------------------------------
+
+            await leaveRef.update({
+
+                status: newStatus,
+
+                reviewedAt: now,
+
+                reviewedBy: hrUid,
+
+                updatedAt: now
+
+            });
+
+            // --------------------------------------------------------
+            // SUCCESS
+            // --------------------------------------------------------
+
+            return res.status(200).json({
+
+                success: true,
+
+                message:
+                    action === "approve"
+                        ? "Leave request approved successfully"
+                        : "Leave request rejected successfully",
+
+                request: {
+
+                    id: requestId,
+
+                    ...leaveData,
+
+                    status: newStatus,
+
+                    reviewedAt: now,
+
+                    reviewedBy: hrUid,
+
+                    updatedAt: now
+
+                }
+
+            });
+        }
+
+        // ============================================================
+        // METHOD NOT ALLOWED
+        // ============================================================
+
+        return res.status(405).json({
+
+            success: false,
+
+            message: "Method not allowed"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "HR leave API error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Failed to process leave request"
+
+        });
+
+    }
+}

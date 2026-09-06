@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SmartHR HR Dashboard - Manage employees, attendance, payroll, recruitment and reports.">
+    <meta name="theme-color" content="#050505">
+    <title>HR Dashboard - SmartHR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/dashboard.css">
+    <link rel="stylesheet" href="/src/styles/hr-dashboard.css">
+</head>
+
+<body class="dashboard-body">
+    <!-- Background Effects -->
+    <div class="dashboard-bg" aria-hidden="true">
+        <div class="dashboard-bg-gradient"></div>
+        <div class="dashboard-bg-grid"></div>
+    </div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="sidebar-logo-text">Smart<span>HR</span></span>
+                    <p class="sidebar-logo-subtitle">HR Admin Portal</p>
+                </div>
+            </a>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <p class="nav-section-title">Main Menu</p>
+                <button class="nav-item active" data-tab="overview">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-item" data-tab="employees">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Employees</span>
+                </button>
+
+                <button class="nav-item" data-tab="attendance">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Attendance</span>
+                </button>
+                <button class="nav-item" data-tab="leave">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <path d="M2 10h20"></path>
+                    </svg>
+                    <span>Leave Requests</span>
+                </button>
+                <button class="nav-item" data-tab="payroll">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    <span>Payroll</span>
+                </button>
+                
+            </div>
+            <div class="nav-section">
+                <p class="nav-section-title">Other</p>
+
+
+                <a href="/" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">HR</div>
+                <div class="user-details">
+                    <p class="user-name" id="userName">HR Admin</p>
+                    <p class="user-role" id="userRole">HR Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="header-title">HR Dashboard</h1>
+                    <p class="header-subtitle">Manage your workforce</p>
+                </div>
+            </div>
+            <div class="header-right">
+
+                <button class="add-employee-btn" id="addEmployeeBtn" onclick="openAddEmployeeModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Add Employee</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="dashboard-content">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value" id="totalEmployeesStat">0</h3>
+                        <p class="stat-label">Total Employees</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                                    <line x1="9" y1="6" x2="15" y2="6"></line>
+                                    <line x1="9" y1="10" x2="15" y2="10"></line>
+                                    <line x1="9" y1="14" x2="15" y2="14"></line>
+                                    <line x1="9" y1="18" x2="15" y2="18"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value" id="totalDepartmentsStat">0</h3>
+                        <p class="stat-label">Departments</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value">0</h3>
+                        <p class="stat-label">Present Today</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                    <path d="M8 2v4"></path>
+                                    <path d="M16 2v4"></path>
+                                    <path d="M2 10h20"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value">0</h3>
+                        <p class="stat-label">Pending Leave</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employees Tab -->
+            <div class="tab-content" id="employees">
+                <div class="employees-header">
+                    <h2 class="section-title">Employee Management</h2>
+                    <div class="employee-actions">
+                        <div class="search-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="employeeSearch" placeholder="Search employees...">
+                        </div>
+                        <button class="add-employee-btn" onclick="openAddEmployeeModal()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            <span>Add Employee</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="employees-table-container">
+                    <table class="employees-table">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTableBody">
+                            <!-- Employee rows will be added here -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="employeesEmptyState">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <p>No employees yet</p>
+                        <span>Add your first employee to get started</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Attendance Tab -->
+            <div class="tab-content" id="attendance">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2 class="section-title">
+                            Attendance Overview
+                        </h2>
+
+                        <p class="section-subtitle">
+                            Monitor employee attendance for today
+                        </p>
+                    </div>
+
+                    <button class="add-employee-btn" onclick="loadHRAttendance()">
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <!-- Attendance Statistics -->
+
+                <div class="stats-grid">
+
+                    <!-- Total Employees -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Total Employees</span>
+                        </div>
+
+                        <div class="stat-value" id="attendanceTotalEmployees">
+                            0
+                        </div>
+
+                        <p class="stat-label">
+                            Total employees
+                        </p>
+
+                    </div>
+
+
+                    <!-- Present Today -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Present Today</span>
+                        </div>
+
+                        <div class="stat-value" id="attendancePresentToday">
+                            0
+                        </div>
+
+                        <p class="stat-label">
+                            Currently present
+                        </p>
+
+                    </div>
+
+
+                    <!-- Checked Out -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Checked Out</span>
+                        </div>
+
+                        <div class="stat-value" id="attendanceCheckedOut">
+                            0
+                        </div>
+
+                        <p class="stat-label">
+                            Completed attendance
+                        </p>
+
+                    </div>
+
+
+                    <!-- Not Checked In -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Not Checked In</span>
+                        </div>
+
+                        <div class="stat-value" id="attendanceNotCheckedIn">
+                            0
+                        </div>
+
+                        <p class="stat-label">
+                            No attendance today
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Today's Attendance -->
+
+                <div class="table-section">
+
+                    <div class="section-header">
+
+                        <div>
+                            <h3 class="section-title">
+                                Today's Attendance
+                            </h3>
+
+                            <p class="section-subtitle">
+                                Employee check-in and check-out records
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="hr-attendance-table">
+
+                        <!-- Table Header -->
+
+                        <div class="hr-attendance-header">
+
+                            <div>Employee</div>
+
+                            <div>Employee ID</div>
+
+                            <div>Check In</div>
+
+                            <div>Check Out</div>
+
+                            <div>Status</div>
+
+                        </div>
+
+
+                        <!-- Table Records -->
+
+                        <div id="hrAttendanceRecords" class="hr-attendance-records">
+
+                            <div class="empty-state">
+
+                                <p>
+                                    Loading attendance...
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- Leave Requests Tab -->
+            <div class="tab-content" id="leave">
+
+                <div class="employees-header">
+                    <h2 class="section-title">Leave Requests</h2>
+
+                    <button class="add-employee-btn" id="refreshLeaveRequestsBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+                            <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
+                        </svg>
+
+                        <span>Refresh</span>
+                    </button>
+                </div>
+
+
+                <!-- Leave Statistics -->
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path d="M8 2v4"></path>
+                                    <path d="M16 2v4"></path>
+                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                    <path d="M3 10h18"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <h3 class="stat-value" id="leaveTotalRequests">
+                            0
+                        </h3>
+
+                        <p class="stat-label">
+                            Total Requests
+                        </p>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"></circle>
+
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <h3 class="stat-value" id="leavePendingRequests">
+                            0
+                        </h3>
+
+                        <p class="stat-label">
+                            Pending
+                        </p>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <h3 class="stat-value" id="leaveApprovedRequests">
+                            0
+                        </h3>
+
+                        <p class="stat-label">
+                            Approved
+                        </p>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <h3 class="stat-value" id="leaveRejectedRequests">
+                            0
+                        </h3>
+
+                        <p class="stat-label">
+                            Rejected
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Leave Requests Table -->
+                <div class="employees-table-container">
+
+                    <table class="employees-table">
+
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Leave Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="leaveRequestsTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px;">
+                                    Loading leave requests...
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+            <!-- Payroll Tab -->
+            <div class="tab-content" id="payroll">
+                <div class="payroll-header">
+                    <h2 class="section-title">Payroll Management</h2>
+                    <button class="add-employee-btn" onclick="openPayrollModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Add Payroll</span>
+                    </button>
+                </div>
+
+                <div class="payroll-table-container">
+                    <table class="employees-table">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Basic Salary</th>
+                                <th>Allowances</th>
+                                <th>Deductions</th>
+                                <th>Net Salary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payrollTableBody">
+                            <!-- Payroll rows will be added here -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="payrollEmptyState">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        <p>No payroll records</p>
+                        <span>Add payroll for your employees</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other tabs remain same -->
+        </main>
+    </div>
+
+    <!-- Add Employee Modal (with password field) -->
+    <div class="modal-overlay" id="addEmployeeModal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h3>Add New Employee</h3>
+                <button class="modal-close" onclick="closeAddEmployeeModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addEmployeeForm">
+                    <!-- Login Credentials -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Login Credentials</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empEmail">Email Address *</label>
+                                <input type="email" id="empEmail" required placeholder="Enter email address">
+                            </div>
+                            <div class="form-group">
+                                <label for="empPassword">Initial Password *</label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="empPassword" required
+                                        placeholder="Enter initial password" minlength="6">
+                                    <button type="button" class="password-toggle-btn"
+                                        onclick="togglePassword('empPassword')">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <small class="field-hint">Employee will use this to login first time</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Personal Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empName">Full Name *</label>
+                                <input type="text" id="empName" required placeholder="Enter full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="empPhone">Phone Number</label>
+                                <input type="tel" id="empPhone" placeholder="Enter phone number">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empDob">Date of Birth</label>
+                                <input type="date" id="empDob">
+                            </div>
+                            <div class="form-group">
+                                <label for="empGender">Gender</label>
+                                <select id="empGender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empBloodGroup">Blood Group</label>
+                                <select id="empBloodGroup">
+                                    <option value="">Select Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employment Information -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Employment Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empId">Employee ID</label>
+                                <input type="text" id="empId" placeholder="Auto-generated" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="empDepartment">Department</label>
+                                <input type="text" id="empDepartment" placeholder="Enter department">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empDesignation">Designation</label>
+                                <input type="text" id="empDesignation" placeholder="Enter designation">
+                            </div>
+                            <div class="form-group">
+                                <label for="empJoinDate">Join Date</label>
+                                <input type="date" id="empJoinDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empType">Employment Type</label>
+                                <select id="empType">
+                                    <option value="">Select Type</option>
+                                    <option value="full-time">Full Time</option>
+                                    <option value="part-time">Part Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="intern">Intern</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="empLocation">Work Location</label>
+                                <input type="text" id="empLocation" placeholder="Enter work location">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Information -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Address Information</h4>
+                        <div class="form-group">
+                            <label for="empAddress1">Address Line 1</label>
+                            <input type="text" id="empAddress1" placeholder="Enter address line 1">
+                        </div>
+                        <div class="form-group">
+                            <label for="empAddress2">Address Line 2</label>
+                            <input type="text" id="empAddress2" placeholder="Enter address line 2">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empCity">City</label>
+                                <input type="text" id="empCity" placeholder="Enter city">
+                            </div>
+                            <div class="form-group">
+                                <label for="empState">State</label>
+                                <input type="text" id="empState" placeholder="Enter state">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empCountry">Country</label>
+                                <input type="text" id="empCountry" placeholder="Enter country">
+                            </div>
+                            <div class="form-group">
+                                <label for="empPostal">Postal Code</label>
+                                <input type="text" id="empPostal" placeholder="Enter postal code">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Contact -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Emergency Contact</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empEmergencyName">Contact Name</label>
+                                <input type="text" id="empEmergencyName" placeholder="Enter contact name">
+                            </div>
+                            <div class="form-group">
+                                <label for="empEmergencyRelation">Relationship</label>
+                                <input type="text" id="empEmergencyRelation" placeholder="Enter relationship">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empEmergencyPhone">Phone Number</label>
+                                <input type="tel" id="empEmergencyPhone" placeholder="Enter phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="empEmergencyEmail">Email</label>
+                                <input type="email" id="empEmergencyEmail" placeholder="Enter email">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeAddEmployeeModal()">Cancel</button>
+                <button class="btn-primary" onclick="addEmployee()">Add Employee</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Employee Modal (same as before but with password reset option) -->
+    <div class="modal-overlay" id="editEmployeeModal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h3>Edit Employee</h3>
+                <button class="modal-close" onclick="closeEditEmployeeModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editEmployeeForm">
+                    <input type="hidden" id="editEmpId">
+
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Personal Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpName">Full Name *</label>
+                                <input type="text" id="editEmpName" required placeholder="Enter full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpEmail">Email Address *</label>
+                                <input type="email" id="editEmpEmail" required placeholder="Enter email address">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpPhone">Phone Number</label>
+                                <input type="tel" id="editEmpPhone" placeholder="Enter phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpDob">Date of Birth</label>
+                                <input type="date" id="editEmpDob">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpGender">Gender</label>
+                                <select id="editEmpGender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpBloodGroup">Blood Group</label>
+                                <select id="editEmpBloodGroup">
+                                    <option value="">Select Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employment Information -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Employment Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpEmployeeId">Employee ID</label>
+                                <input type="text" id="editEmpEmployeeId" placeholder="Employee ID" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpDepartment">Department</label>
+                                <input type="text" id="editEmpDepartment" placeholder="Enter department">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpDesignation">Designation</label>
+                                <input type="text" id="editEmpDesignation" placeholder="Enter designation">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpJoinDate">Join Date</label>
+                                <input type="date" id="editEmpJoinDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpType">Employment Type</label>
+                                <select id="editEmpType">
+                                    <option value="">Select Type</option>
+                                    <option value="full-time">Full Time</option>
+                                    <option value="part-time">Part Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="intern">Intern</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpLocation">Work Location</label>
+                                <input type="text" id="editEmpLocation" placeholder="Enter work location">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Information -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Address Information</h4>
+                        <div class="form-group">
+                            <label for="editEmpAddress1">Address Line 1</label>
+                            <input type="text" id="editEmpAddress1" placeholder="Enter address line 1">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmpAddress2">Address Line 2</label>
+                            <input type="text" id="editEmpAddress2" placeholder="Enter address line 2">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpCity">City</label>
+                                <input type="text" id="editEmpCity" placeholder="Enter city">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpState">State</label>
+                                <input type="text" id="editEmpState" placeholder="Enter state">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpCountry">Country</label>
+                                <input type="text" id="editEmpCountry" placeholder="Enter country">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpPostal">Postal Code</label>
+                                <input type="text" id="editEmpPostal" placeholder="Enter postal code">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Contact -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">Emergency Contact</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpEmergencyName">Contact Name</label>
+                                <input type="text" id="editEmpEmergencyName" placeholder="Enter contact name">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpEmergencyRelation">Relationship</label>
+                                <input type="text" id="editEmpEmergencyRelation" placeholder="Enter relationship">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editEmpEmergencyPhone">Phone Number</label>
+                                <input type="tel" id="editEmpEmergencyPhone" placeholder="Enter phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmpEmergencyEmail">Email</label>
+                                <input type="email" id="editEmpEmergencyEmail" placeholder="Enter email">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeEditEmployeeModal()">Cancel</button>
+                <button class="btn-primary" onclick="updateEmployee()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payroll Modal -->
+    <div class="modal-overlay" id="payrollModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add Payroll</h3>
+                <button class="modal-close" onclick="closePayrollModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="payrollForm">
+                    <div class="form-group">
+                        <label for="payrollEmployee">Employee *</label>
+                        <select id="payrollEmployee" required>
+                            <option value="">Select Employee</option>
+                            <!-- Employee options will be populated -->
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="payrollBasic">Basic Salary *</label>
+                            <input type="number" id="payrollBasic" required placeholder="Enter basic salary" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="payrollAllowances">Allowances</label>
+                            <input type="number" id="payrollAllowances" placeholder="Enter allowances" min="0"
+                                value="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="payrollDeductions">Deductions</label>
+                            <input type="number" id="payrollDeductions" placeholder="Enter deductions" min="0"
+                                value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="payrollMonth">Month *</label>
+                            <input type="month" id="payrollMonth" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Net Salary</label>
+                        <div class="net-salary-display" id="netSalaryDisplay">$0</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closePayrollModal()">Cancel</button>
+                <button class="btn-primary" onclick="addPayroll()">Add Payroll</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal-overlay" id="resetPasswordModal">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h3>Reset Password</h3>
+                <button class="modal-close" onclick="closeResetPasswordModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="resetPasswordForm">
+                    <input type="hidden" id="resetEmpId">
+                    <div class="form-group">
+                        <label for="newPassword">New Password *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="newPassword" required placeholder="Enter new password"
+                                minlength="6">
+                            <button type="button" class="password-toggle-btn" onclick="togglePassword('newPassword')">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <input type="password" id="confirmPassword" required placeholder="Confirm new password"
+                            minlength="6">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeResetPasswordModal()">Cancel</button>
+                <button class="btn-primary" onclick="resetPassword()">Reset Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteEmployeeModal">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h3>Delete Employee</h3>
+                <button class="modal-close" onclick="closeDeleteEmployeeModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this employee? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeDeleteEmployeeModal()">Cancel</button>
+                <button class="btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./hr-dashboard.js"></script>
+</body>
+
+</html>

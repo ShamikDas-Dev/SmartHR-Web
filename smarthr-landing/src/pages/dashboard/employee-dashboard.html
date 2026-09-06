@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SmartHR Employee Dashboard - Access your profile, attendance, leave and payroll.">
+    <meta name="theme-color" content="#050505">
+    <title>Employee Dashboard - SmartHR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/dashboard.css">
+</head>
+
+<body class="dashboard-body">
+    <!-- Background Effects -->
+    <div class="dashboard-bg" aria-hidden="true">
+        <div class="dashboard-bg-gradient"></div>
+        <div class="dashboard-bg-grid"></div>
+    </div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="sidebar-logo-text">Smart<span>HR</span></span>
+                    <p class="sidebar-logo-subtitle">Employee Portal</p>
+                </div>
+            </a>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <p class="nav-section-title">Main Menu</p>
+                <button class="nav-item active" data-tab="overview">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-item" data-tab="profile">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>My Profile</span>
+                </button>
+                <button class="nav-item" data-tab="attendance">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Attendance</span>
+                </button>
+                <button class="nav-item" data-tab="leave">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <path d="M2 10h20"></path>
+                    </svg>
+                    <span>Leave Management</span>
+                </button>
+                <button class="nav-item" data-tab="payroll">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    <span>Payroll</span>
+                </button>
+
+            </div>
+            <div class="nav-section">
+                <p class="nav-section-title">Other</p>
+                <a href="/" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">E</div>
+                <div class="user-details">
+                    <p class="user-name" id="userName">Employee</p>
+                    <p class="user-role" id="userRole">Employee</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="header-title" id="dashboardHeaderName">Employee</h1>
+                    <p class="header-subtitle">
+                        Welcome, <span id="welcomeName">Employee</span>
+                    </p>
+                </div>
+            </div>
+            <div class="header-right">
+
+                <div class="attendance-actions">
+                    <button id="checkInBtn" class="attendance-btn">
+                        Check In
+                    </button>
+
+                    <button id="checkOutBtn" class="attendance-btn" disabled>
+                        Check Out
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="dashboard-content">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value" id="overviewPresentDays">--</h3>
+                        <p class="stat-label">Present Days</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                    <path d="M8 2v4"></path>
+                                    <path d="M16 2v4"></path>
+                                    <path d="M2 10h20"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value" id="overviewLeaveBalance">--</h3>
+                        <p class="stat-label">Leave Balance</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value" id="overviewWorkingHours">--</h3>
+                        <p class="stat-label">Working Hours</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="stat-value" id="overviewMonthlySalary">--</h3>
+                        <p class="stat-label">Monthly Salary</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2 class="section-title">Quick Actions</h2>
+                    <div class="action-grid">
+                        <button class="action-card" onclick="navigateTo('attendance')">
+                            <div class="action-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <span>Mark Attendance</span>
+                        </button>
+                        <button class="action-card" onclick="navigateTo('leave')">
+                            <div class="action-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                    <path d="M8 2v4"></path>
+                                    <path d="M16 2v4"></path>
+                                    <path d="M2 10h20"></path>
+                                </svg>
+                            </div>
+                            <span>Apply for Leave</span>
+                        </button>
+                        <button class="action-card" onclick="navigateTo('payroll')">
+                            <div class="action-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                            <span>View Payslip</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Profile Tab -->
+            <div class="tab-content" id="profile">
+                <div class="profile-container">
+                    <!-- Profile Header Card -->
+                    <div class="profile-header-card">
+                        <div class="profile-cover"></div>
+                        <div class="profile-main-info">
+                            <div class="profile-avatar-section">
+                                <div class="profile-avatar-large" id="profileAvatar">
+                                    <span id="profileAvatarText">E</span>
+                                </div>
+                                <div class="profile-title-section">
+                                    <h2 id="profileName">Employee</h2>
+                                    <p id="profileDesignation">Employee</p>
+                                    <span class="profile-status" id="profileStatus">Active</span>
+                                </div>
+                            </div>
+                            <button class="edit-profile-btn" id="editProfileBtn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                                Edit Profile
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Profile Details Grid -->
+                    <div class="profile-details-grid">
+                        <!-- Personal Information -->
+                        <div class="profile-section-card">
+                            <div class="profile-section-header">
+                                <h3>Personal Information</h3>
+                            </div>
+                            <div class="profile-section-body">
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Full Name</label>
+                                        <p id="fullName">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Email Address</label>
+                                        <p id="email">--</p>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Phone Number</label>
+                                        <p id="phone">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Date of Birth</label>
+                                        <p id="dob">--</p>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Gender</label>
+                                        <p id="gender">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Blood Group</label>
+                                        <p id="bloodGroup">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Information -->
+                        <div class="profile-section-card">
+                            <div class="profile-section-header">
+                                <h3>Employment Information</h3>
+                            </div>
+                            <div class="profile-section-body">
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Employee ID</label>
+                                        <p id="employeeId">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Department</label>
+                                        <p id="department">--</p>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Designation</label>
+                                        <p id="designation">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Join Date</label>
+                                        <p id="joinDate">--</p>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Employment Type</label>
+                                        <p id="employmentType">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Work Location</label>
+                                        <p id="workLocation">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information -->
+                        <div class="profile-section-card">
+                            <div class="profile-section-header">
+                                <h3>Address Information</h3>
+                            </div>
+                            <div class="profile-section-body">
+                                <div class="info-item full-width">
+                                    <label>Address Line 1</label>
+                                    <p id="address1">--</p>
+                                </div>
+                                <div class="info-item full-width">
+                                    <label>Address Line 2</label>
+                                    <p id="address2">--</p>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>City</label>
+                                        <p id="city">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>State</label>
+                                        <p id="state">--</p>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Country</label>
+                                        <p id="country">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Postal Code</label>
+                                        <p id="postalCode">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Contact -->
+                        <div class="profile-section-card">
+                            <div class="profile-section-header">
+                                <h3>Emergency Contact</h3>
+                            </div>
+                            <div class="profile-section-body">
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Contact Name</label>
+                                        <p id="emergencyName">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Relationship</label>
+                                        <p id="emergencyRelation">--</p>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-item">
+                                        <label>Phone Number</label>
+                                        <p id="emergencyPhone">--</p>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Email</label>
+                                        <p id="emergencyEmail">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Tab -->
+            <div class="tab-content" id="attendance">
+
+                <h2 class="section-title">Attendance Overview</h2>
+
+                <!-- Today's Attendance -->
+                <div class="attendance-today-card">
+
+                    <div class="attendance-today-header">
+                        <div>
+                            <h3>Today's Attendance</h3>
+                            <p>Record your working hours for today.</p>
+                        </div>
+
+                        <div class="attendance-status" id="attendanceStatus">
+                            Not Checked In
+                        </div>
+                    </div>
+
+                    <div class="attendance-time-grid">
+
+                        <div class="attendance-time-card">
+                            <span>Check In</span>
+                            <strong id="todayCheckIn">--</strong>
+                        </div>
+
+                        <div class="attendance-time-card">
+                            <span>Check Out</span>
+                            <strong id="todayCheckOut">--</strong>
+                        </div>
+
+                        <div class="attendance-time-card">
+                            <span>Working Hours</span>
+                            <strong id="todayWorkingHours">--</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="attendance-actions">
+
+                        <button id="checkInBtn" class="attendance-btn">
+                            Check In
+                        </button>
+
+                        <button id="checkOutBtn" class="attendance-btn" disabled>
+                            Check Out
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Attendance History -->
+                <div class="attendance-history-section">
+
+                    <div class="attendance-history-header">
+                        <div>
+                            <h3>Attendance History</h3>
+                            <p>Your previous attendance records.</p>
+                        </div>
+                    </div>
+
+                    <div class="attendance-records" id="attendanceRecords">
+                        <div class="attendance-loading">
+                            Loading attendance...
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Leave Management Tab -->
+            <div class="tab-content" id="leave">
+
+                <div class="leave-page-header">
+                    <div>
+                        <h2 class="section-title">Leave Management</h2>
+                        <p class="leave-subtitle">
+                            Apply for leave and track your requests
+                        </p>
+                    </div>
+
+                    <button type="button" class="leave-apply-btn" id="applyLeaveBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+
+                        Apply for Leave
+                    </button>
+                </div>
+
+
+                <!-- Leave Statistics -->
+                <div class="leave-stats">
+
+                    <div class="leave-stat-card">
+                        <div class="leave-stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.7">
+                                <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <span class="leave-stat-label">Total Requests</span>
+                            <strong id="leaveTotalCount">0</strong>
+                        </div>
+                    </div>
+
+
+                    <div class="leave-stat-card">
+                        <div class="leave-stat-icon pending">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.7">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <polyline points="12 7 12 12 15 14"></polyline>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <span class="leave-stat-label">Pending</span>
+                            <strong id="leavePendingCount">0</strong>
+                        </div>
+                    </div>
+
+
+                    <div class="leave-stat-card">
+                        <div class="leave-stat-icon approved">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.7">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <span class="leave-stat-label">Approved</span>
+                            <strong id="leaveApprovedCount">0</strong>
+                        </div>
+                    </div>
+
+
+                    <div class="leave-stat-card">
+                        <div class="leave-stat-icon rejected">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.7">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <span class="leave-stat-label">Rejected</span>
+                            <strong id="leaveRejectedCount">0</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- My Leave Requests -->
+                <div class="leave-requests-section">
+
+                    <div class="leave-section-header">
+                        <div>
+                            <h3>My Leave Requests</h3>
+                            <p>View the status of your submitted requests</p>
+                        </div>
+                    </div>
+
+
+                    <div class="leave-request-list" id="leaveRequestList">
+
+                        <div class="leave-empty-state">
+
+                            <div class="leave-empty-icon">
+                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </div>
+
+                            <h4>No leave requests yet</h4>
+
+                            <p>
+                                Submit your first leave request to see it here.
+                            </p>
+
+                            <button type="button" class="leave-empty-btn" id="emptyApplyLeaveBtn">
+                                Apply for Leave
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Apply Leave Modal -->
+            <div class="leave-modal-overlay" id="leaveModal">
+
+                <div class="leave-modal">
+
+                    <div class="leave-modal-header">
+
+                        <div>
+                            <h3>Apply for Leave</h3>
+                            <p>Submit a request for your time off</p>
+                        </div>
+
+                        <button type="button" class="leave-modal-close" id="closeLeaveModalBtn" aria-label="Close">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+
+                    </div>
+
+
+                    <form id="leaveForm">
+
+                        <div class="leave-modal-body">
+
+                            <!-- Leave Type -->
+                            <div class="leave-form-group">
+
+                                <label for="leaveType">
+                                    Leave Type
+                                    <span>*</span>
+                                </label>
+
+                                <select id="leaveType" required>
+                                    <option value="">Select leave type</option>
+                                    <option value="Paid Leave">Paid Leave</option>
+                                    <option value="Sick Leave">Sick Leave</option>
+                                    <option value="Unpaid Leave">Unpaid Leave</option>
+                                </select>
+
+                            </div>
+
+
+                            <!-- Date Range -->
+                            <div class="leave-form-row">
+
+                                <div class="leave-form-group">
+
+                                    <label for="leaveStartDate">
+                                        Start Date
+                                        <span>*</span>
+                                    </label>
+
+                                    <input type="date" id="leaveStartDate" required>
+
+                                </div>
+
+
+                                <div class="leave-form-group">
+
+                                    <label for="leaveEndDate">
+                                        End Date
+                                        <span>*</span>
+                                    </label>
+
+                                    <input type="date" id="leaveEndDate" required>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Reason -->
+                            <div class="leave-form-group">
+
+                                <label for="leaveReason">
+                                    Reason
+                                    <span>*</span>
+                                </label>
+
+                                <textarea id="leaveReason" rows="5" required maxlength="500"
+                                    placeholder="Explain the reason for your leave..."></textarea>
+
+                                <div class="leave-character-count">
+                                    Maximum 500 characters
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="leave-modal-footer">
+
+                            <button type="button" class="leave-cancel-btn" id="cancelLeaveBtn">
+                                Cancel
+                            </button>
+
+                            <button type="submit" class="leave-submit-btn" id="submitLeaveBtn">
+                                <span>Submit Request</span>
+
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Payroll Tab -->
+            <div class="tab-content" id="payroll">
+                <h2 class="section-title">Payroll Information</h2>
+                <div class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    <p>No payroll information</p>
+                    <span>Your salary details will appear here</span>
+                </div>
+            </div>
+
+
+
+
+        </main>
+    </div>
+
+    <script type="module" src="../../dashboard.js"></script>
+
+    <!-- ==========================================
+     EDIT MY PROFILE MODAL
+     ========================================== -->
+
+    <div class="modal-overlay" id="editProfileModal">
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+                <div>
+                    <h2>Edit Profile</h2>
+                    <p>Update your contact information</p>
+                </div>
+
+                <button type="button" class="modal-close" id="closeEditProfile">
+                    &times;
+                </button>
+            </div>
+
+
+            <form id="editProfileForm">
+
+                <!-- ==============================
+                 Contact Information
+                 ============================== -->
+
+                <div class="edit-section">
+
+                    <h3>Contact Information</h3>
+
+                    <div class="form-group">
+                        <label for="editPhone">
+                            Phone Number
+                        </label>
+
+                        <input type="text" id="editPhone" placeholder="Enter phone number">
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                 Address Information
+                 ============================== -->
+
+                <div class="edit-section">
+
+                    <h3>Address Information</h3>
+
+                    <div class="form-group">
+                        <label for="editAddress1">
+                            Address Line 1
+                        </label>
+
+                        <input type="text" id="editAddress1" placeholder="Enter address line 1">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="editAddress2">
+                            Address Line 2
+                        </label>
+
+                        <input type="text" id="editAddress2" placeholder="Enter address line 2">
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="editCity">
+                                City
+                            </label>
+
+                            <input type="text" id="editCity" placeholder="Enter city">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="editState">
+                                State
+                            </label>
+
+                            <input type="text" id="editState" placeholder="Enter state">
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="editCountry">
+                                Country
+                            </label>
+
+                            <input type="text" id="editCountry" placeholder="Enter country">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="editPostalCode">
+                                Postal Code
+                            </label>
+
+                            <input type="text" id="editPostalCode" placeholder="Enter postal code">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                 Emergency Contact
+                 ============================== -->
+
+                <div class="edit-section">
+
+                    <h3>Emergency Contact</h3>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="editEmergencyName">
+                                Contact Name
+                            </label>
+
+                            <input type="text" id="editEmergencyName" placeholder="Enter contact name">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="editEmergencyRelation">
+                                Relationship
+                            </label>
+
+                            <input type="text" id="editEmergencyRelation" placeholder="Enter relationship">
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="editEmergencyPhone">
+                                Phone Number
+                            </label>
+
+                            <input type="text" id="editEmergencyPhone" placeholder="Enter phone number">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="editEmergencyEmail">
+                                Email
+                            </label>
+
+                            <input type="email" id="editEmergencyEmail" placeholder="Enter email">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                 Buttons
+                 ============================== -->
+
+                <div class="modal-footer">
+
+                    <button type="button" class="cancel-btn" id="cancelEditProfile">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="save-btn" id="saveProfileBtn">
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- Leave Request Modal -->
+    <div class="modal-overlay" id="leaveModal">
+        <div class="modal">
+
+            <div class="modal-header">
+                <h3>Apply for Leave</h3>
+
+                <button type="button" class="modal-close" onclick="closeLeaveModal()" aria-label="Close">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="leaveForm">
+
+                    <div class="form-group">
+                        <label for="leaveType">Leave Type *</label>
+
+                        <select id="leaveType" required>
+                            <option value="">Select leave type</option>
+                            <option value="Casual Leave">Casual Leave</option>
+                            <option value="Sick Leave">Sick Leave</option>
+                            <option value="Earned Leave">Earned Leave</option>
+                            <option value="Unpaid Leave">Unpaid Leave</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="leaveStartDate">Start Date *</label>
+
+                            <input type="date" id="leaveStartDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="leaveEndDate">End Date *</label>
+
+                            <input type="date" id="leaveEndDate" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="leaveReason">Reason *</label>
+
+                        <textarea id="leaveReason" rows="4" required placeholder="Enter reason for leave"></textarea>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn-secondary" onclick="closeLeaveModal()">
+                    Cancel
+                </button>
+
+                <button type="button" class="btn-primary" id="submitLeaveBtn" onclick="submitLeaveRequest()">
+                    Submit Request
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Leave Request Modal -->
+    <div class="modal-overlay" id="leaveModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <h3>Apply for Leave</h3>
+
+                <button type="button" class="modal-close" onclick="closeLeaveModal()">
+                    ×
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="leaveForm">
+
+                    <div class="form-group">
+                        <label for="leaveType">
+                            Leave Type *
+                        </label>
+
+                        <select id="leaveType" required>
+                            <option value="">
+                                Select leave type
+                            </option>
+
+                            <option value="Casual Leave">
+                                Casual Leave
+                            </option>
+
+                            <option value="Sick Leave">
+                                Sick Leave
+                            </option>
+
+                            <option value="Earned Leave">
+                                Earned Leave
+                            </option>
+
+                            <option value="Unpaid Leave">
+                                Unpaid Leave
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="leaveStartDate">
+                                Start Date *
+                            </label>
+
+                            <input type="date" id="leaveStartDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="leaveEndDate">
+                                End Date *
+                            </label>
+
+                            <input type="date" id="leaveEndDate" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="leaveReason">
+                            Reason *
+                        </label>
+
+                        <textarea id="leaveReason" rows="4" placeholder="Enter reason for leave" required></textarea>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn-secondary" onclick="closeLeaveModal()">
+                    Cancel
+                </button>
+
+                <button type="button" class="btn-primary" id="submitLeaveBtn">
+                    Submit Request
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <style>
+        /* =========================================
+   LEAVE MANAGEMENT
+========================================= */
+
+        .leave-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .leave-subtitle {
+            margin-top: 6px;
+            color: #8b8b8b;
+            font-size: 14px;
+        }
+
+
+        .leave-apply-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            border: 0;
+            border-radius: 10px;
+
+            padding: 11px 17px;
+
+            background: #ffffff;
+            color: #111111;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .leave-apply-btn:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================================
+   LEAVE STATS
+========================================= */
+
+        .leave-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .leave-stat-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            padding: 18px;
+
+            background: rgba(255, 255, 255, 0.035);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+        }
+
+        .leave-stat-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: rgba(255, 255, 255, 0.07);
+            color: #ffffff;
+        }
+
+        .leave-stat-icon.pending {
+            color: #f5c86a;
+        }
+
+        .leave-stat-icon.approved {
+            color: #72d69a;
+        }
+
+        .leave-stat-icon.rejected {
+            color: #e87979;
+        }
+
+        .leave-stat-label {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #858585;
+            font-size: 12px;
+        }
+
+        .leave-stat-card strong {
+            display: block;
+
+            color: #ffffff;
+            font-size: 22px;
+        }
+
+
+        /* =========================================
+   REQUEST SECTION
+========================================= */
+
+        .leave-requests-section {
+            background: rgba(255, 255, 255, 0.025);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+
+            overflow: hidden;
+        }
+
+        .leave-section-header {
+            padding: 22px 24px;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .leave-section-header h3 {
+            margin: 0;
+
+            color: #ffffff;
+            font-size: 17px;
+        }
+
+        .leave-section-header p {
+            margin: 6px 0 0;
+
+            color: #777777;
+            font-size: 13px;
+        }
+
+
+        /* =========================================
+   EMPTY STATE
+========================================= */
+
+        .leave-empty-state {
+            min-height: 300px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            text-align: center;
+
+            padding: 40px;
+        }
+
+        .leave-empty-icon {
+            width: 64px;
+            height: 64px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 16px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.045);
+            color: #777777;
+        }
+
+        .leave-empty-state h4 {
+            margin: 0 0 7px;
+
+            color: #d7d7d7;
+            font-size: 16px;
+        }
+
+        .leave-empty-state p {
+            margin: 0 0 20px;
+
+            color: #707070;
+            font-size: 13px;
+        }
+
+        .leave-empty-btn {
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            border-radius: 9px;
+
+            padding: 9px 15px;
+
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+
+            cursor: pointer;
+
+            transition: background 0.2s ease;
+        }
+
+        .leave-empty-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+
+        /* =========================================
+   MODAL
+========================================= */
+
+        .leave-modal-overlay {
+            position: fixed;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(0, 0, 0, 0.72);
+
+            backdrop-filter: blur(8px);
+
+            z-index: 9999;
+        }
+
+        .leave-modal-overlay.active {
+            display: flex;
+        }
+
+        .leave-modal {
+            width: min(540px, 100%);
+
+            max-height: 90vh;
+            overflow-y: auto;
+
+            background: #151515;
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.65);
+
+            animation: leaveModalIn 0.2s ease;
+        }
+
+        @keyframes leaveModalIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        .leave-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            padding: 24px;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .leave-modal-header h3 {
+            margin: 0;
+
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .leave-modal-header p {
+            margin: 6px 0 0;
+
+            color: #777777;
+            font-size: 13px;
+        }
+
+        .leave-modal-close {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+            border-radius: 8px;
+
+            background: rgba(255, 255, 255, 0.05);
+            color: #999999;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .leave-modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+
+        /* =========================================
+   FORM
+========================================= */
+
+        .leave-modal-body {
+            padding: 24px;
+        }
+
+        .leave-form-group {
+            margin-bottom: 20px;
+        }
+
+        .leave-form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #d0d0d0;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .leave-form-group label span {
+            color: #f07878;
+        }
+
+        .leave-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .leave-form-group input,
+        .leave-form-group select,
+        .leave-form-group textarea {
+            width: 100%;
+
+            box-sizing: border-box;
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9px;
+
+            padding: 11px 12px;
+
+            outline: none;
+
+            background: rgba(255, 255, 255, 0.045);
+            color: #ffffff;
+
+            font-family: inherit;
+            font-size: 13px;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .leave-form-group input:focus,
+        .leave-form-group select:focus,
+        .leave-form-group textarea:focus {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.065);
+        }
+
+        .leave-form-group select option {
+            background: #181818;
+            color: #ffffff;
+        }
+
+        .leave-form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .leave-form-group input::placeholder,
+        .leave-form-group textarea::placeholder {
+            color: #606060;
+        }
+
+        .leave-character-count {
+            margin-top: 6px;
+
+            color: #5f5f5f;
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+   MODAL FOOTER
+========================================= */
+
+        .leave-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+
+            padding: 18px 24px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .leave-cancel-btn,
+        .leave-submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            border-radius: 9px;
+
+            padding: 10px 16px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .leave-cancel-btn {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            background: transparent;
+            color: #999999;
+        }
+
+        .leave-cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .leave-submit-btn {
+            border: 0;
+
+            background: #ffffff;
+            color: #111111;
+        }
+
+        .leave-submit-btn:hover {
+            background: #e7e7e7;
+        }
+
+        .leave-submit-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+   RESPONSIVE
+========================================= */
+
+        @media (max-width: 800px) {
+
+            .leave-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .leave-page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .leave-apply-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .leave-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .leave-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .leave-modal-footer {
+                flex-direction: column-reverse;
+            }
+
+            .leave-cancel-btn,
+            .leave-submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+
+</html>
