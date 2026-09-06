@@ -1,5 +1,5 @@
 {
-  "name": "smart-hr-landing",
+  "name": "smarthr-landing",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
