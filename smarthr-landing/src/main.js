@@ -342,7 +342,32 @@ if (hrLoginForm) {
 // =====================================================
 // Message Function
 // =====================================================
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
 
+    if (!mobileMenuBtn || !mobileMenu) {
+        return;
+    }
+
+    mobileMenuBtn.addEventListener("click", () => {
+        const isOpen = mobileMenu.classList.toggle("active");
+
+        mobileMenuBtn.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
+    });
+
+    // Close menu after clicking a link
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            mobileMenu.classList.remove("active");
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+        });
+    });
+}
+initMobileMenu();
 function showMessage(message, type) {
 
     const form =
