@@ -1,11 +1,10 @@
-import { adminAuth, adminDb } from "./firebaseAdmin.js";
+import { adminAuth, adminDb } from "../lib/firebaseAdmin.js";
 
 export default async function handler(req, res) {
     try {
         // ==========================================
         // AUTHENTICATION
         // ==========================================
-
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -22,12 +21,139 @@ export default async function handler(req, res) {
 
         const uid = decodedToken.uid;
 
+        // Check role from custom claim
+        const isHR =
+            decodedToken.role === "hr" ||
+            decodedToken.role === "admin";
 
         // ==========================================
-        // GET ATTENDANCE
+        // HR ATTENDANCE - GET ALL EMPLOYEES
         // ==========================================
+        if (req.method === "GET" && isHR) {
+            const now = new Date();
 
+            const indiaDate =
+                new Intl.DateTimeFormat("en-CA", {
+                    timeZone: "Asia/Kolkata"
+                }).format(now);
+
+            // Get all employees
+            const employeesSnapshot =
+                await adminDb
+                    .collection("employees")
+                    .get();
+
+            // Get today's attendance
+            const attendanceSnapshot =
+                await adminDb
+                    .collection("attendance")
+                    .where("date", "==", indiaDate)
+                    .get();
+
+            const attendanceMap = new Map();
+
+            attendanceSnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                attendanceMap.set(
+                    data.employeeId,
+                    {
+                        id: doc.id,
+                        ...data
+                    }
+                );
+            });
+
+            const attendance = [];
+
+            employeesSnapshot.forEach((doc) => {
+                const employee = doc.data();
+
+                const personal =
+                    employee.personalInformation || {};
+
+                const employment =
+                    employee.employmentInformation || {};
+
+                const employeeAttendance =
+                    attendanceMap.get(doc.id);
+
+                let status = "Not Checked In";
+                let checkIn = null;
+                let checkOut = null;
+
+                if (employeeAttendance) {
+                    checkIn =
+                        employeeAttendance.checkIn || null;
+
+                    checkOut =
+                        employeeAttendance.checkOut || null;
+
+                    if (checkOut) {
+                        status = "Checked Out";
+                    } else if (checkIn) {
+                        status = "Present";
+                    }
+                }
+
+                attendance.push({
+                    id: employeeAttendance?.id || doc.id,
+                    employeeId:
+                        employee.employeeId || "",
+                    name:
+                        personal.fullName || "Employee",
+                    department:
+                        employment.department || "",
+                    checkIn,
+                    checkOut,
+                    status
+                });
+            });
+
+            // Statistics
+            const totalEmployees =
+                employeesSnapshot.size;
+
+            const presentToday =
+                attendance.filter(
+                    employee =>
+                        employee.status === "Present"
+                ).length;
+
+            const checkedOut =
+                attendance.filter(
+                    employee =>
+                        employee.status === "Checked Out"
+                ).length;
+
+            const notCheckedIn =
+                attendance.filter(
+                    employee =>
+                        employee.status === "Not Checked In"
+                ).length;
+
+            return res.status(200).json({
+                success: true,
+                stats: {
+                    totalEmployees,
+                    presentToday,
+                    checkedOut,
+                    notCheckedIn
+                },
+                attendance
+            });
+        }
+
+        // ==========================================
+        // EMPLOYEE - GET OWN ATTENDANCE
+        // ==========================================
         if (req.method === "GET") {
+            if (isHR) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Invalid attendance request"
+                });
+            }
 
             const snapshot = await adminDb
                 .collection("attendance")
@@ -43,7 +169,6 @@ export default async function handler(req, res) {
                 });
             });
 
-
             // Sort newest first
             attendance.sort((a, b) => {
                 return (b.date || "").localeCompare(
@@ -51,19 +176,24 @@ export default async function handler(req, res) {
                 );
             });
 
-
             return res.status(200).json({
                 success: true,
                 attendance
             });
         }
 
-
         // ==========================================
         // POST ATTENDANCE
         // ==========================================
-
         if (req.method === "POST") {
+            // HR should not perform employee
+            // check-in/check-out through this endpoint.
+            if (isHR) {
+                return res.status(403).json({
+                    success: false,
+                    message: "HR cannot perform employee attendance actions"
+                });
+            }
 
             const { action } = req.body || {};
 
@@ -77,8 +207,9 @@ export default async function handler(req, res) {
                 });
             }
 
-
-            // Use India time
+            // ==========================================
+            // INDIA TIME
+            // ==========================================
             const now = new Date();
 
             const indiaDate =
@@ -94,11 +225,9 @@ export default async function handler(req, res) {
                     hour12: true
                 }).format(now);
 
-
             // ==========================================
             // FIND TODAY'S RECORD
             // ==========================================
-
             const attendanceQuery = await adminDb
                 .collection("attendance")
                 .where("employeeId", "==", uid)
@@ -106,20 +235,17 @@ export default async function handler(req, res) {
                 .limit(1)
                 .get();
 
-
             // ==========================================
             // CHECK IN
             // ==========================================
-
             if (action === "check-in") {
-
                 if (!attendanceQuery.empty) {
                     return res.status(400).json({
                         success: false,
-                        message: "You have already checked in today"
+                        message:
+                            "You have already checked in today"
                     });
                 }
-
 
                 const attendanceRef =
                     await adminDb
@@ -130,13 +256,14 @@ export default async function handler(req, res) {
                             checkIn: indiaTime,
                             checkOut: null,
                             status: "Present",
-                            createdAt: now.toISOString()
+                            createdAt:
+                                now.toISOString()
                         });
-
 
                 return res.status(201).json({
                     success: true,
-                    message: `Checked in at ${indiaTime}`,
+                    message:
+                        `Checked in at ${indiaTime}`,
                     attendance: {
                         id: attendanceRef.id,
                         employeeId: uid,
@@ -148,20 +275,17 @@ export default async function handler(req, res) {
                 });
             }
 
-
             // ==========================================
             // CHECK OUT
             // ==========================================
-
             if (action === "check-out") {
-
                 if (attendanceQuery.empty) {
                     return res.status(400).json({
                         success: false,
-                        message: "You have not checked in today"
+                        message:
+                            "You have not checked in today"
                     });
                 }
-
 
                 const attendanceDoc =
                     attendanceQuery.docs[0];
@@ -169,24 +293,24 @@ export default async function handler(req, res) {
                 const attendanceData =
                     attendanceDoc.data();
 
-
                 if (attendanceData.checkOut) {
                     return res.status(400).json({
                         success: false,
-                        message: "You have already checked out today"
+                        message:
+                            "You have already checked out today"
                     });
                 }
 
-
                 await attendanceDoc.ref.update({
                     checkOut: indiaTime,
-                    updatedAt: now.toISOString()
+                    updatedAt:
+                        now.toISOString()
                 });
-
 
                 return res.status(200).json({
                     success: true,
-                    message: `Checked out at ${indiaTime}`,
+                    message:
+                        `Checked out at ${indiaTime}`,
                     attendance: {
                         id: attendanceDoc.id,
                         ...attendanceData,
@@ -196,18 +320,15 @@ export default async function handler(req, res) {
             }
         }
 
-
         // ==========================================
         // METHOD NOT ALLOWED
         // ==========================================
-
         return res.status(405).json({
             success: false,
             message: "Method not allowed"
         });
 
     } catch (error) {
-
         console.error(
             "Attendance API error:",
             error
@@ -215,7 +336,8 @@ export default async function handler(req, res) {
 
         return res.status(500).json({
             success: false,
-            message: "Failed to process attendance",
+            message:
+                "Failed to process attendance",
             error: error.message
         });
     }

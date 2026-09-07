@@ -1,4 +1,4 @@
-import { adminAuth, adminDb } from "./firebaseAdmin.js";
+import { adminAuth, adminDb } from "../lib/firebaseAdmin.js";
 
 export default async function handler(req, res) {
   // Only allow GET

@@ -217,7 +217,7 @@ async function loadHRAttendance() {
         }
 
         const data = await apiRequest(
-            "/api/hr-attendance",
+            "/api/attendance",
             {
                 method: "GET"
             }
