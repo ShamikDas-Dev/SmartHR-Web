@@ -221,8 +221,70 @@ if (employeeLoginForm) {
 
     });
 }
+// ============================================================
+// SHOW / HIDE PASSWORD
+// ============================================================
 
+const passwordInput = document.getElementById("password");
+const passwordToggle = document.getElementById("passwordToggle");
 
+if (passwordInput && passwordToggle) {
+    passwordToggle.addEventListener("click", () => {
+        const isHidden = passwordInput.type === "password";
+
+        passwordInput.type = isHidden ? "text" : "password";
+
+        passwordToggle.setAttribute(
+            "aria-label",
+            isHidden ? "Hide password" : "Show password"
+        );
+
+        passwordToggle.innerHTML = isHidden
+            ? `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20
+                        c-7 0-11-8-11-8a21.77 21.77 0 0 1 5.06-5.94">
+                    </path>
+                    <path d="M1 1l22 22"></path>
+                    <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4
+                        c7 0 11 8 11 8a21.77 21.77 0 0 1-4.06 5.94">
+                    </path>
+                    <path d="M14.12 14.12A3 3 0 0 1 9.88 9.88"></path>
+                </svg>
+            `
+            : `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            `;
+    });
+}
+// ============================================================
+// HR PASSWORD SHOW / HIDE
+// ============================================================
+
+const hrPasswordInput = document.getElementById("hrPassword");
+const hrPasswordToggle = document.getElementById("hrPasswordToggle");
+
+if (hrPasswordInput && hrPasswordToggle) {
+    hrPasswordToggle.addEventListener("click", () => {
+        const isHidden = hrPasswordInput.type === "password";
+
+        hrPasswordInput.type = isHidden ? "text" : "password";
+
+        hrPasswordToggle.setAttribute(
+            "aria-label",
+            isHidden ? "Hide password" : "Show password"
+        );
+    });
+}
 // ============================================================
 // HR LOGIN
 // ============================================================
