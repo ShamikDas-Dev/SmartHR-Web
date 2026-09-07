@@ -6,16 +6,36 @@ export default defineConfig({
     port: 3000,
     open: true
   },
+
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
     minify: 'terser',
+
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        employeeLogin: resolve(__dirname, 'src/pages/employee-login.html'),
-        hrLogin: resolve(__dirname, 'src/pages/hr-login.html'),
+
+        employeeLogin: resolve(
+          __dirname,
+          'src/pages/employee-login.html'
+        ),
+
+        hrLogin: resolve(
+          __dirname,
+          'src/pages/hr-login.html'
+        ),
+
+        employeeDashboard: resolve(
+          __dirname,
+          'src/pages/dashboard/employee-dashboard.html'
+        ),
+
+        hrDashboard: resolve(
+          __dirname,
+          'src/pages/dashboard/hr-dashboard.html'
+        ),
       },
     },
   },
