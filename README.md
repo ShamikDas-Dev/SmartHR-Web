@@ -148,6 +148,19 @@ SmartHR-Web/
     ├── package-lock.json
     └── vite.config.js
 ```
+## Feedback
+
+Your feedback helps improve SmartHR.
+
+If you have tested the platform, found a bug, experienced an issue, or have a suggestion for improvement, please share your feedback through the SmartHR feedback form.
+
+**https://forms.gle/u6xijVCsLU7ou8ey8**
+
+When reporting an issue, including the following is helpful:
+
+- What happened
+- What you expected to happen
+- Steps to reproduce the issue
 ## Author
 
 ### Shamik Das
