@@ -1279,6 +1279,14 @@ function closeAddEmployeeModal() {
 
 async function addEmployee() {
 
+     const form = document.getElementById("addEmployeeForm");
+
+  
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
     const name =
         document.getElementById("empName").value.trim();
 
