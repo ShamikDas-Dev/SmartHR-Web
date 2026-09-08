@@ -1279,9 +1279,9 @@ function closeAddEmployeeModal() {
 
 async function addEmployee() {
 
-     const form = document.getElementById("addEmployeeForm");
+    const form = document.getElementById("addEmployeeForm");
 
-  
+
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -1435,14 +1435,21 @@ async function addEmployee() {
 
         closeAddEmployeeModal();
 
+        await loadEmployees();
+
+        // Redirect to Employees page
+        const employeesNav = document.querySelector(
+            '.nav-item[data-tab="employees"]'
+        );
+
+        if (employeesNav) {
+            employeesNav.click();
+        }
 
         showNotification(
             data.message ||
             "Employee added successfully"
         );
-
-
-        await loadEmployees();
 
 
     } catch (error) {
@@ -2129,8 +2136,8 @@ function populatePayrollEmployeeSelect() {
                 >
                     ${escapeHTML(employee.name || "Employee")}
                     (${escapeHTML(
-                        employee.employeeId || "--"
-                    )})
+                employee.employeeId || "--"
+            )})
                 </option>
             `;
 
@@ -2245,10 +2252,10 @@ function renderPayroll() {
 
                             <div class="employee-cell-avatar">
                                 ${escapeHTML(
-                                    getInitials(
-                                        employeeName
-                                    )
-                                )}
+                getInitials(
+                    employeeName
+                )
+            )}
                             </div>
 
                             <div class="employee-cell-info">
@@ -2257,16 +2264,16 @@ function renderPayroll() {
                                     class="employee-cell-name"
                                 >
                                     ${escapeHTML(
-                                        employeeName
-                                    )}
+                employeeName
+            )}
                                 </span>
 
                                 <span
                                     class="employee-cell-email"
                                 >
                                     ${escapeHTML(
-                                        employeeCode
-                                    )}
+                employeeCode
+            )}
                                 </span>
 
                             </div>
