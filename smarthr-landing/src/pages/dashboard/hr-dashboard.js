@@ -440,7 +440,9 @@ async function loadHRLeaveRequests() {
     }
 }
 
-
+function refreshLeaveRequests() {
+    loadHRLeaveRequests();
+}
 // ============================================================
 // RENDER LEAVE REQUESTS
 // ============================================================
@@ -1218,10 +1220,30 @@ function generateEmployeeId() {
 
     const year = new Date().getFullYear();
 
-    const count = employees.length + 1;
+    let highestNumber = 0;
+
+    employees.forEach(employee => {
+        const employeeId = employee.employeeId;
+
+        if (!employeeId) return;
+
+        const match = employeeId.match(
+            new RegExp(`^EMP-${year}-(\\d+)$`)
+        );
+
+        if (match) {
+            const number = parseInt(match[1], 10);
+
+            if (number > highestNumber) {
+                highestNumber = number;
+            }
+        }
+    });
+
+    const nextNumber = highestNumber + 1;
 
     empIdInput.value =
-        `EMP-${year}-${String(count).padStart(3, "0")}`;
+        `EMP-${year}-${String(nextNumber).padStart(3, "0")}`;
 }
 
 
