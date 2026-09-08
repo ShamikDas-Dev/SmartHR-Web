@@ -1805,8 +1805,8 @@ function initLeaveManagement() {
     const submitLeaveBtn =
         document.getElementById("submitLeaveBtn");
 
-    const closeLeaveBtn =
-        document.getElementById("closeLeaveBtn");
+const closeLeaveBtn =
+    document.getElementById("closeLeaveModalBtn");
 
     const cancelLeaveBtn =
         document.getElementById("cancelLeaveBtn");
@@ -1864,6 +1864,24 @@ function openLeaveModal() {
     if (!modal) {
         console.error("leaveModal element not found");
         return;
+    }
+
+    // Get today's date in India
+    const today = getIndiaDate();
+
+    // Prevent selecting past dates
+    const startDateInput =
+        document.getElementById("leaveStartDate");
+
+    const endDateInput =
+        document.getElementById("leaveEndDate");
+
+    if (startDateInput) {
+        startDateInput.min = today;
+    }
+
+    if (endDateInput) {
+        endDateInput.min = today;
     }
 
     modal.classList.add("active");
@@ -1930,6 +1948,26 @@ async function submitLeaveRequest() {
         return;
     }
 
+    // Get today's date in India
+    const today = getIndiaDate();
+
+    // Start date cannot be in the past
+    if (startDate < today) {
+        showNotification(
+            "Leave cannot be requested for past dates."
+        );
+        return;
+    }
+
+    // End date cannot be in the past
+    if (endDate < today) {
+        showNotification(
+            "Leave cannot be requested for past dates."
+        );
+        return;
+    }
+
+    // End date cannot be before start date
     if (endDate < startDate) {
         showNotification(
             "End date cannot be before start date."
